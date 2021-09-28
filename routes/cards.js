@@ -71,8 +71,7 @@ router.patch('/:id', (req, res) => {
   if (!id) {
     return res.status(400).send('Bad request')
   }
-  const card = cards.find(card => card.id === id)
-  if (!card) {
+  if (!cards.includes(card => card.id === id)) {
     return res.status(404).send('Not found')
   }
   cards = cards.map(card => (card.id === id ? { ...card, ...req.body } : card))
