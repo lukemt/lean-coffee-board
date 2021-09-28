@@ -45,10 +45,11 @@ Accept-Charset: utf-8
 ### GET with filter
 GET https://jsonplaceholder.typicode.com/posts?title=et%20ea%20vero%20quia%20laudantium%20autem
 
-
+### GET all cards
+GET http://localhost:3000/api/cards
 
 ### 
-POST http://localhost:3000/api/card
+POST http://localhost:3000/api/cards
 Content-Type: application/json
 
 {
@@ -56,7 +57,7 @@ Content-Type: application/json
 }
 
 ### 
-PUT http://localhost:3000/api/card/3
+PUT http://localhost:3000/api/cards/3
 Content-Type: application/json
 
 {

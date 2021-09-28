@@ -10,7 +10,7 @@ app.get('/name', (req, res) => {
   res.send('Your name is lukas.')
 })
 
-app.use('/', require('./routes/cards'))
+app.use('/api/cards', require('./routes/cards'))
 
 app.listen(port, () => {
   console.log('server lisstening on port ' + port)
