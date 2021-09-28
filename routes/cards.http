@@ -1,0 +1,36 @@
+
+### GET all cards
+GET http://localhost:3000/api/cards
+
+### GET FIRST_CARD
+GET http://localhost:3000/api/cards/FIRST_CARD
+
+### POST a new card
+POST http://localhost:3000/api/cards
+Content-Type: application/json
+
+{
+    "name": "jolo"
+}
+
+### PUT (replace) SECOND_CARD
+PUT http://localhost:3000/api/cards/SECOND_CARD
+Content-Type: application/json
+
+{
+    "name": "jolo!!"
+}
+
+
+
+### PATCH (change) FIRST_CARD
+PATCH  http://localhost:3000/api/cards/FIRST_CARD
+Content-Type: application/json
+
+{
+    "name": "jolo!!"
+}
+
+### DELETE SECOND_CARD
+
+DELETE http://localhost:3000/api/cards/SECOND_CARD

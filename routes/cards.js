@@ -1,23 +1,24 @@
 const express = require('express')
+const { nanoid } = require('nanoid')
 const router = express.Router()
+
+const cardTemplate = {
+  name: '',
+  description: '',
+  image: '',
+  likes: 0,
+}
 
 let cards = [
   {
-    id: 0,
-    name: 'Template Card',
-    description: 'This is a template card',
-    image: 'https://picsum.photos/200/300/?random',
-    likes: 0,
-  },
-  {
-    id: 1,
+    id: 'FIRST_CARD',
     name: 'Card 1',
     description: 'This is card 1',
     image: 'https://picsum.photos/200/300/?random',
     likes: 0,
   },
   {
-    id: 2,
+    id: 'SECOND_CARD',
     name: 'Card 2',
     description: 'This is card 2',
     image: 'https://picsum.photos/200/300/?random',
@@ -32,7 +33,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id
-  const card = cards.find(card => card.id == id)
+  const card = cards.find(card => card.id === id)
   if (card) {
     res.status(200)
     res.send(card)
@@ -46,14 +47,14 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  const newCard = { ...cards[0], ...req.body, id: cards.at(-1).id + 1 }
+  const newCard = { ...cardTemplate, ...req.body, id: nanoid() }
   cards = [...cards, newCard]
   res.send(newCard)
 })
 
 router.put('/:id', (req, res) => {
   const id = req.params.id
-  const newCard = { ...cards[0], ...req.body, id }
+  const newCard = { ...cardTemplate, ...req.body, id }
   cards = cards.map(card => (card.id === id ? newCard : card))
   res.send(newCard)
 })
