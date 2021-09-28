@@ -37,6 +37,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   const newCard = { ...cards[0], ...req.body, id: cards.at(-1).id + 1 }
+  cards = [...cards, newCard]
   res.send(newCard)
 })
 
