@@ -27,26 +27,26 @@ let cards = [
 ]
 
 router.get('/', (req, res) => {
-  res.status(205)
   res.send(cards)
 })
 
 router.get('/:id', (req, res) => {
   const id = req.params.id
-  const card = cards.find(card => card.id === id)
-  if (card) {
-    res.status(200)
-    res.send(card)
-  } else {
-    res.status(404)
-    res.send({
-      error: 'Card not found',
-    })
+  if (!id) {
+    return res.status(400).send('Bad request')
   }
-  res.send()
+  const card = cards.find(card => card.id === id)
+  if (!card) {
+    res.status(404).send('Not found')
+    return
+  }
+  res.send(card)
 })
 
 router.post('/', (req, res) => {
+  if (!req.body.name) {
+    return res.status(400).send('Bad request')
+  }
   const newCard = { ...cardTemplate, ...req.body, id: nanoid() }
   cards = [...cards, newCard]
   res.send(newCard)
@@ -54,6 +54,13 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
   const id = req.params.id
+  if (!id) {
+    return res.status(400).send('Bad request')
+  }
+  const card = cards.find(card => card.id === id)
+  if (!card) {
+    return res.status(404).send('Not found')
+  }
   const newCard = { ...cardTemplate, ...req.body, id }
   cards = cards.map(card => (card.id === id ? newCard : card))
   res.send(newCard)
@@ -61,13 +68,26 @@ router.put('/:id', (req, res) => {
 
 router.patch('/:id', (req, res) => {
   const id = req.params.id
+  if (!id) {
+    return res.status(400).send('Bad request')
+  }
+  const card = cards.find(card => card.id === id)
+  if (!card) {
+    return res.status(404).send('Not found')
+  }
   cards = cards.map(card => (card.id === id ? { ...card, ...req.body } : card))
   res.send(cards.find(card => card.id === id))
 })
 
 router.delete('/:id', (req, res) => {
   const id = req.params.id
+  if (!id) {
+    return res.status(400).send('Bad request')
+  }
   const deletedCard = cards.find(card => card.id === id)
+  if (!deletedCard) {
+    return res.status(404).send('Not found')
+  }
   cards = cards.filter(card => card.id !== id)
   res.send(deletedCard)
 })
