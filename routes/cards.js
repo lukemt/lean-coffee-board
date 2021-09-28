@@ -54,20 +54,20 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
   const id = req.params.id
   const newCard = { ...cards[0], ...req.body, id }
-  cards = cards.map(card => (card.id == id ? newCard : card))
+  cards = cards.map(card => (card.id === id ? newCard : card))
   res.send(newCard)
 })
 
 router.patch('/:id', (req, res) => {
   const id = req.params.id
-  cards = cards.map(card => (card.id == id ? { ...card, ...req.body } : card))
-  res.send(cards.find(card => card.id == id))
+  cards = cards.map(card => (card.id === id ? { ...card, ...req.body } : card))
+  res.send(cards.find(card => card.id === id))
 })
 
 router.delete('/:id', (req, res) => {
   const id = req.params.id
-  const deletedCard = cards.find(card => card.id == id)
-  cards = cards.filter(card => card.id != id)
+  const deletedCard = cards.find(card => card.id === id)
+  cards = cards.filter(card => card.id !== id)
   res.send(deletedCard)
 })
 
