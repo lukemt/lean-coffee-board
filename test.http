@@ -1,0 +1,64 @@
+### GET example.com
+GET http://www.example.com/
+
+
+## GET JSON placeholder
+
+### GET first post
+GET http://jsonplaceholder.typicode.com/posts/1
+
+### GET all posts
+GET http://jsonplaceholder.typicode.com/posts/
+
+### POST new post
+POST http://jsonplaceholder.typicode.com/posts/
+content-type: application/json
+
+{
+    "userId": 1,
+    "title": "foo",
+    "body": "bar"
+}
+
+### PUT 
+PUT https://jsonplaceholder.typicode.com/posts/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "title": "foo",
+    "body": "bar",
+    "userId": 1
+  }
+
+
+### PATCH
+PATCH https://jsonplaceholder.typicode.com/posts/1
+Content-Type: application/json
+Accept-Charset: utf-8
+
+{
+    "title": "foom"
+}
+
+
+### GET with filter
+GET https://jsonplaceholder.typicode.com/posts?title=et%20ea%20vero%20quia%20laudantium%20autem
+
+
+
+### 
+POST http://localhost:3000/api/card
+Content-Type: application/json
+
+{
+    "lolo": "jolo"
+}
+
+### 
+PUT http://localhost:3000/api/card/3
+Content-Type: application/json
+
+{
+    "lolo": "jolo"
+}
