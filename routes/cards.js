@@ -32,7 +32,17 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const id = req.params.id
-  res.send(cards.find(card => card.id == id))
+  const card = cards.find(card => card.id == id)
+  if (card) {
+    res.status(200)
+    res.send(card)
+  } else {
+    res.status(404)
+    res.send({
+      error: 'Card not found',
+    })
+  }
+  res.send()
 })
 
 router.post('/', (req, res) => {
