@@ -1,5 +1,7 @@
 const express = require('express')
 const { nanoid } = require('nanoid')
+const Card = require('../models/Card')
+
 const router = express.Router()
 
 const cardTemplate = {
@@ -27,55 +29,80 @@ let cards = [
 ]
 
 router.get('/', (req, res) => {
-  res.send(cards)
+  Card.find({})
+    .then(cards => {
+      res.json(cards)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).json({ error: 'Something went wrong...' })
+    })
 })
 
 router.get('/:id', (req, res) => {
   const id = req.params.id
   if (!id) {
-    return res.status(400).send('Bad request')
+    return res.status(400).json({ error: 'Bad Request' })
   }
-  const card = cards.find(card => card.id === id)
-  if (!card) {
-    res.status(404).send('Not found')
-    return
-  }
-  res.send(card)
+  Card.findById(id)
+    .then(card => {
+      if (card === null) {
+        res.status(404).json({ error: `Card with id '${id}' not found` })
+      } else {
+        res.status(200).json(card)
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'Internal Server Error: ' + error })
+    })
 })
 
 router.post('/', (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).send('Bad request')
+  if (!req.body.text || !req.body.author) {
+    return res.status(400).json({ error: 'Bad Request' })
   }
-  const newCard = { ...cardTemplate, ...req.body, id: nanoid() }
-  cards = [...cards, newCard]
-  res.send(newCard)
+  // or Card.create(req.body)
+  new Card(req.body)
+    .save()
+    .then(card => {
+      res.status(201).json(card)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ error: 'Could not be saved...' })
+    })
 })
 
 router.put('/:id', (req, res) => {
   const id = req.params.id
   if (!id) {
-    return res.status(400).send('Bad request')
+    return res.status(400).json({ error: 'Bad Request' })
   }
-  const card = cards.find(card => card.id === id)
-  if (!card) {
-    return res.status(404).send('Not found')
-  }
-  const newCard = { ...cardTemplate, ...req.body, id }
-  cards = cards.map(card => (card.id === id ? newCard : card))
-  res.send(newCard)
+  Card.findOneAndReplace({ _id: id }, req.body, { new: true })
+    .then(card => {
+      if (!card) {
+        return res.status(404).json({ error: `Card with id '${id}' not found` })
+      }
+      return res.json(card)
+    })
+    .catch(error => {
+      res.json({ error: 'Internal Server Error: ' + error })
+    })
 })
 
 router.patch('/:id', (req, res) => {
   const id = req.params.id
   if (!id) {
-    return res.status(400).send('Bad request')
+    return res.status(400).json({ error: 'Bad request' })
   }
-  if (!cards.includes(card => card.id === id)) {
-    return res.status(404).send('Not found')
-  }
-  cards = cards.map(card => (card.id === id ? { ...card, ...req.body } : card))
-  res.send(cards.find(card => card.id === id))
+  Card.findByIdAndUpdate(id, req.body, { new: true })
+    .then(card => {
+      res.status(200).json(card)
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).json({ error: 'Something went wrong...' + error })
+    })
 })
 
 router.delete('/:id', (req, res) => {

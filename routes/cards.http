@@ -2,33 +2,36 @@
 ### GET all cards
 GET http://localhost:3000/api/cards
 
-### GET FIRST_CARD
-GET http://localhost:3000/api/cards/FIRST_CARD
+### GET a card
+GET http://localhost:3000/api/cards/61546f9dbdabfed7a7db8859
 
 ### POST a new card
 POST http://localhost:3000/api/cards
 Content-Type: application/json
 
 {
-    "name": "jolo"
+    "gaga": "bambooooo",
+    "text": "ono",
+    "author": "ooo"
 }
 
 ### PUT (replace) SECOND_CARD
-PUT http://localhost:3000/api/cards/SECOND_CARD
+PUT http://localhost:3000/api/cards/61546f9dbdabfed7a7db8859
 Content-Type: application/json
 
 {
-    "name": "jolo!!"
+    "text": "yep",
+    "author": "joooggg"
 }
 
 
 
 ### PATCH (change) FIRST_CARD
-PATCH  http://localhost:3000/api/cards/FIRST_CARD
+PATCH  http://localhost:3000/api/cards/61546f9dbdabfed7a7db8859
 Content-Type: application/json
 
 {
-    "name": "jolo!!"
+    "text": "jolo!!"
 }
 
 ### DELETE SECOND_CARD
