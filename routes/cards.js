@@ -110,12 +110,18 @@ router.delete('/:id', (req, res) => {
   if (!id) {
     return res.status(400).send('Bad request')
   }
-  const deletedCard = cards.find(card => card.id === id)
-  if (!deletedCard) {
-    return res.status(404).send('Not found')
-  }
-  cards = cards.filter(card => card.id !== id)
-  res.send(deletedCard)
+
+  Card.findByIdAndDelete(id)
+    .then(card => {
+      if (!card) {
+        return res.status(404).json({ error: `Card with id '${id}' not found` })
+      }
+      res.status(200).json(card)
+    })
+    .catch(error => {
+      console.log(error)
+      return res.status(500).json({ error: 'Something went wrong...' + error })
+    })
 })
 
 module.exports = router
