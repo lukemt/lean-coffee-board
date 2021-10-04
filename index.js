@@ -2,6 +2,7 @@ const express = require('express')
 const connectDatabase = require('./setupDatabase')
 const app = express()
 
+console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
@@ -19,5 +20,5 @@ app.get('/name', (req, res) => {
 app.use('/api/cards', require('./routes/cards'))
 
 app.listen(PORT, () => {
-  console.log('server lisstening on port ' + port)
+  console.log('server lisstening on port ' + PORT)
 })
